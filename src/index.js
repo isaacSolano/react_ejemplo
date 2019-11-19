@@ -5,4 +5,4 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Registro from './components/Registro/Index';
 
-render(<Registro />, document.getElementById('root'));
+render(<Registro />, document.getElementById('principal'));

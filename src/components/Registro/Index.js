@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-
-import Service from '../Service';
 import Swal from 'sweetalert2';
+
+import Servicio from '../Servicio';
+// import Listar from '../Listar/Index';
 
 const Registro = () => {
     /* Empiezan funciones */
-    let [usuario, setUsuario] = useState({}),
+    let [aplicacion, setAplicacion] = useState({}),
         [err, setErr] = useState({});
 
     const admCambio = (e) => {
@@ -14,17 +15,19 @@ const Registro = () => {
                 {...err, [e.target.name]: true}
             );
         }else{
-            setUsuario(
-                {...usuario, [e.target.name]: e.target.value}
+            setAplicacion(
+                {...aplicacion, [e.target.name]: e.target.value}
             );
         }
     }
 
-    const admRegistrar = (e) => {
+    const admRegistrar = async(e) => {
         e.preventDefault();
 
-        let err = Service.registrarUsuario(usuario);
+        let err = await Servicio.registrarAplicacion(aplicacion);
 
+        console.log(err);
+        
         if(err) {
             Swal.fire(
                 ':(',
@@ -34,7 +37,7 @@ const Registro = () => {
         }else{
             Swal.fire(
                 ':)',
-                'Usuario registrado exitosamente',
+                'Aplicación registrada exitosamente',
                 'success'
             )
         }
@@ -46,38 +49,28 @@ const Registro = () => {
 
                 <div className="row">
                     <div className="col-md-12 text-center p-5">
-                        <h1>Registro</h1>
+                        <h1>Registro de aplicaciones</h1>
                     </div>
                 </div>
 
                 <div className="row">
                     <form className="col-md-6 text-left mx-auto" onSubmit={admRegistrar}>
                         <div className="form-group">
-                            <label>Cedula</label>
-                            <input type="number" className={`form-control ${err.cedula && 'border border-danger'}`} name="cedula" onChange={admCambio}/>
-                        </div>
-                        
-                        <div className="form-group">
-                            <label>Nombre</label>
+                            <label>Nombre de la aplicación</label>
                             <input type="text" className={`form-control ${err.nombre && 'border border-danger'}`} name="nombre" onChange={admCambio}/>
                         </div>
 
                         <div className="form-group">
-                            <label>Apellidos</label>
-                            <input type="text" className={`form-control ${err.apellidos && 'border border-danger'}`} name="apellidos" onChange={admCambio}/>
+                            <label>Descripción del proyecto</label>
+                            <textarea rows="10" className={`form-control ${err.descripcion && 'border border-danger'}`} name="descripcion" onChange={admCambio}></textarea>
                         </div>
 
-                        <div className="form-group">
-                            <label>Edad</label>
-                            <input type="number" className={`form-control ${err.edad && 'border border-danger'}`} name="edad" onChange={admCambio}/>
-                        </div>
-
-                        <input type="submit" value="Registrar" className="btn btn-primary"/>
+                        <input type="submit" value="Registrar aplicación" className="btn btn-primary"/>
                     </form>
                 </div>
 
                 <div className="row">
-                    
+                    {/* <Listar usuarios={usuariosLS} /> */}
                 </div>
             </div>
         </>        
