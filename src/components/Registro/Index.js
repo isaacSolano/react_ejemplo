@@ -1,13 +1,24 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Swal from 'sweetalert2';
 
 import Servicio from '../Servicio';
-// import Listar from '../Listar/Index';
+import Listar from '../Listar/Index';
 
 const Registro = () => {
     /* Empiezan funciones */
     let [aplicacion, setAplicacion] = useState({}),
-        [err, setErr] = useState({});
+        [err, setErr] = useState({}),
+        [aplicacionesBD, setListaAplicacionesBD] = useState([]);
+
+    useEffect( () => {
+        let obtenerTodasLasAplicaciones = async() => {
+            let todasLasAplicaciones = await Servicio.obtenerTodasLasAplicaciones();
+
+            setListaAplicacionesBD(todasLasAplicaciones.data);
+        }
+
+        obtenerTodasLasAplicaciones();
+    });
 
     const admCambio = (e) => {
         if(e.target.value === ''){
@@ -25,21 +36,11 @@ const Registro = () => {
         e.preventDefault();
 
         let err = await Servicio.registrarAplicacion(aplicacion);
-
-        console.log(err);
         
         if(err) {
-            Swal.fire(
-                ':(',
-                'Hubo un problema con el registro',
-                'error'
-            )
+            Swal.fire(':(', 'Verifique que el nombre de la aplicación no se repita', 'error');
         }else{
-            Swal.fire(
-                ':)',
-                'Aplicación registrada exitosamente',
-                'success'
-            )
+            Swal.fire(':)', 'Aplicación registrada exitosamente', 'success');
         }
     }
     /* Terminan funciones */
@@ -69,8 +70,8 @@ const Registro = () => {
                     </form>
                 </div>
 
-                <div className="row">
-                    {/* <Listar usuarios={usuariosLS} /> */}
+                <div className="row py-5">
+                    <Listar aplicaciones={aplicacionesBD}/>
                 </div>
             </div>
         </>        

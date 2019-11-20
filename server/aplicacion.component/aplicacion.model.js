@@ -1,9 +1,9 @@
 const mongoose = require('mongoose'),
-        Schema = mongoose.Schema;
+    {Schema} = mongoose;
 
-const AplicacionSchema = new Schema({
-    nombre: {type: String, required: true},
-    descripcion: {type: String}
+const aplicacionSchema = new Schema({
+    nombre: {type: String, required: true, unique: true},
+    descripcion: {type: String, required: true}
 });
 
-module.exports = mongoose.model('Aplicacion', AplicacionSchema);
+mongoose.model('aplicaciones', aplicacionSchema);

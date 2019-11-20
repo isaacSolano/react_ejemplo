@@ -1,20 +1,20 @@
 import axios from 'axios';
 
-const _obtenerAplicaciones = () => {
-    let aplicacionesBD = JSON.parse(localStorage.getItem('usuariosLS'));
+const _obtenerTodasLasAplicaciones = () => {
+    let aplicacionesBD = axios.get('/api/obtener_aplicaciones');
     
     return aplicacionesBD;
 }
 
 const _registrarAplicacion = async(objNuevaAplicacion) => {
-    let err = await axios.post('http://localhost:5000/api/registrar_aplicacion', objNuevaAplicacion);
+    let err = (await axios.post('/api/registrar_aplicacion', objNuevaAplicacion)).data;
 
     return err;
 }
 
 const Servicio = {
     registrarAplicacion: _registrarAplicacion,
-    obtenerAplicaciones: _obtenerAplicaciones,
+    obtenerTodasLasAplicaciones: _obtenerTodasLasAplicaciones,
 };
 
 export default Servicio;

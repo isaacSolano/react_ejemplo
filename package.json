@@ -4,7 +4,11 @@
   "private": true,
   "dependencies": {
     "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
     "bootstrap": "^4.3.1",
+    "express": "^4.17.1",
+    "http-proxy-middleware": "^0.20.0",
+    "mongoose": "^5.7.12",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.2.0",
@@ -15,10 +19,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "node-env-run server --exec nodemon | pino-colada",
-    "both": "run-p server start"
+    "server": "nodemon ./server",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start\""
   },
-  "proxy": "http://localhost:5000",
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -35,13 +38,7 @@
     ]
   },
   "devDependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "express-pino-logger": "^4.0.0",
-    "mongoose": "^5.7.11",
-    "node-env-run": "^3.0.2",
-    "nodemon": "^1.19.4",
-    "npm-run-all": "^4.1.5",
-    "pino-colada": "^1.5.0"
+    "concurrently": "^5.0.0",
+    "nodemon": "^1.19.4"
   }
 }

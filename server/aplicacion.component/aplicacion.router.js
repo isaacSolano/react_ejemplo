@@ -1,19 +1,21 @@
-const express = require('express'),
-        router = express.Router(),
-        AplicacionModel = require('./aplicacion.model');
+const mongoose = require('mongoose'),
+    Aplicacion = mongoose.model('aplicaciones');
 
-router.route('/registrar_aplicacion')
-    .post( (req, res) => {
-        const newAplicacion = new AplicacionModel(req.body);
-        newAplicacion.save()
-            .then(newAplicacion => {
-                res.json(true);
-                console.log(newAplicacion);
-            })
-            .catch(err => {
-                res.send(false);
-                res.send(err);
-            });
+module.exports = (app) => {
+    app.post('/api/registrar_aplicacion', async (req, res) => {
+        let aplicacion = await Aplicacion.create(req.body)
+        .then( aplicacion => {
+            res.json(false);
+        })
+        .catch( err => {
+            res.send(true);
+            res.send(err);
+        });
     });
 
-module.exports = router;
+    app.get('/api/obtener_aplicaciones', async(req, res) => {
+        let aplicacionesBD = await Aplicacion.find();
+
+        return res.send(aplicacionesBD);
+    });
+}
